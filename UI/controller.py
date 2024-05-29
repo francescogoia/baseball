@@ -9,13 +9,34 @@ class Controller:
         self._model = model
 
     def handleCreaGrafo(self, e):
-        pass
+        if self._view._ddAnno.value is None:
+            self._view._txt_result.controls.append(ft.Text(f"Selezionare anno dal menù"))
+            return None
+        self._model.buildGraph(self._view._ddAnno.value)
+        self._view._txt_result.controls.clear()
+        self._view._txt_result.controls.append(ft.Text(f"Grafo corretamente creato"))
+        n, a = self._model.getGraphDetails()
+        self._view._txt_result.controls.append(ft.Text(f"Il grafo è costituito di {n} nodi e {a} archi"))
+        self._view.update_page()
+
 
     def handleDettagli(self, e):
-        pass
+        v0 = self._selectedTeam
+        vicini = self._model.getSortedNeighbors(v0)
+        self._view._txt_result.controls.clear()
+        self._view._txt_result.controls.append(ft.Text(f"Stampo i vicini di {v0} con relativo peso dell'arco"))
+        for v in vicini:
+            self._view._txt_result.controls.append(ft.Text(f"{v[1]} - {v[0]}"))
+        self._view.update_page()
 
     def handlePercorso(self, e):
-        pass
+        v0 = self._selectedTeam
+        self._view._txt_result.controls.clear()
+        path = self._model.getPercorso(v0)
+        self._view._txt_result.controls.append(ft.Text(f"Lunghezza percorso trovato: {len(path)}"))
+        for p in path:
+            self._view._txt_result.controls.append(ft.Text(p))
+        self._view.update_page()
 
     def fillDDYear(self):
         years = self._model.getyears()
