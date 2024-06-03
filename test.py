@@ -7,6 +7,7 @@ myModel.buildGraph(2015)
 myModel.printGraphData()
 
 v0 = list(myModel._grafo.nodes)[10]
+print(v0)
 vicini = myModel.getSortedNeighbors(v0)
 """for v in vicini:
     print(v[1], v[0])"""

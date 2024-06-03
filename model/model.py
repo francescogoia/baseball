@@ -34,6 +34,13 @@ class Model:
                 if t1 != t2:
                     self._grafo.add_edge(t1, t2)"""
 
+    def getWeighthsOfPAth(self, path):
+        listTuples = [path[0], 0]
+        for i in range(len(path) -1):
+            listTuples.append( (path[i+1], self._grafo[path[i]][path[i+1]]["weight"]))
+        return listTuples
+
+
     def getSortedNeighbors(self, v0):
         vicini = self._grafo.neighbors(v0)
         viciniTuples = []
@@ -75,7 +82,7 @@ class Model:
         parziale.append(listaVicini[0][0])
         self._ricorsioneV2(parziale)
         parziale.pop()
-        return self._bestPath
+        return self.getWeighthsOfPAth(self._bestPath)
 
     def _ricorsione(self, parziale):
         # verifico se soluzione migliore del best
@@ -122,3 +129,4 @@ class Model:
                 parziale.pop()
                 return      # chiamo sempre il vicino che pesa di più che non è in parziale e che pesa di meno del precedente
                 # aggiungo e faccio ricorsione
+                # posso fare return perché è completamente connesso

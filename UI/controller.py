@@ -1,3 +1,5 @@
+import warnings
+
 import flet as ft
 
 
@@ -7,6 +9,7 @@ class Controller:
         self._view = view
         # the model, which implements the logic of the program and holds the data
         self._model = model
+        self._selectedTeam = None
 
     def handleCreaGrafo(self, e):
         if self._view._ddAnno.value is None:
@@ -30,6 +33,10 @@ class Controller:
         self._view.update_page()
 
     def handlePercorso(self, e):
+        if self._selectedTeam == None:
+            warnings.warn("Squadra non selezionata")
+            self._view._txt_result.controls.clear()
+            self._view._txt_result.controls.append(ft.Text(f"Squadra non selezionata"))
         v0 = self._selectedTeam
         self._view._txt_result.controls.clear()
         path = self._model.getPercorso(v0)
